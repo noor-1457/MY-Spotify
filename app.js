@@ -13,7 +13,7 @@ let next = document.getElementById("next");
 // ✅ Function to get songs dynamically from a folder
 async function getSongs(folder) {
   currfolder = folder;
-  let a = await fetch(`http://127.0.0.1:5500/${folder}/`);
+  let a = await fetch(`${folder}/`);
   let response = await a.text();
   let div = document.createElement("div");
   div.innerHTML = response;
@@ -180,7 +180,7 @@ Array.from(document.getElementsByClassName("card")).forEach((card) => {
 // ✅ Show all folders (albums)
 async function displayAllItems() {
   try {
-    let res = await fetch(`http://127.0.0.1:5500/songs/`);
+    let res = await fetch(`songs/`);
     let html = await res.text();
 
     let div = document.createElement("div");
@@ -196,17 +196,13 @@ async function displayAllItems() {
 
         try {
           // ✅ only show folders that have info.json (album data)
-          let infoRes = await fetch(
-            `http://127.0.0.1:5500/songs/${folder}/info.json`
-          );
+          let infoRes = await fetch(`songs/${folder}/info.json`);
           if (!infoRes.ok) continue;
 
           let info = await infoRes.json();
 
           // ✅ check if cover.jpg exists (optional but keeps design clean)
-          let coverCheck = await fetch(
-            `http://127.0.0.1:5500/songs/${folder}/cover.jpg`
-          );
+          let coverCheck = await fetch(`songs/${folder}/cover.jpg`);
           if (!coverCheck.ok) continue;
 
           // ✅ now safely add the card
